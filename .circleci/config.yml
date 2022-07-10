@@ -19,6 +19,28 @@ jobs:
                   --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
                   --region us-east-1
 
+  ################################################################
+  #      Configure & Deployment
+  ################################################################
+  configure_infrastructure: 
+  docker:
+    - image: 
+  steps:
+    - checkout
+    - add_ssh_keys:
+            # You can get this ID in the section where you registered the SSH Key
+            fingerprints: ["6c:ad:42:58:a1:2f:92:04:59:e0:77:53:9a:47:cc:29"] 
+    - run:
+        name: Install Ansible
+        command: |
+          # Install Ansible
+          apk add --update ansible
+    - run:
+        name: Run Playbook and Configure server
+        command: |
+          # Your command
+          ansible-playbook -i inventory main-remote.yml
+
 workflows:
   my_workflow:
       jobs:
